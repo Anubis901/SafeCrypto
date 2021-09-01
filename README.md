@@ -1,14 +1,14 @@
-Managing your wallets is not easy. Securing your wallets is even more difficult.
+##### Managing your wallets is not easy. Securing your wallets is even more difficult.
 
-Did you think how to secure your wallet ? What happened if you loose your wallets ?
+##### Did you think how to secure your wallet ? What happened if you loose your wallets ?
 
-Of course the best way to secure your wallets is to memorize your keys or to us a paper wallet.
+##### Of course the best way to secure your wallets is to memorize your keys or to us a paper wallet.
 
-To be honest, it is clearly not practical and not resilient.
+##### To be honest, it is clearly not practical and not resilient.
 
-That's why i developed an offline app to store my wallets.
+##### That's why i developed an offline app to store my wallets.
 
-This system is very robust and easy to use. You just need to remember one password to access to all your wallets.
+##### This system is very robust and easy to use. You just need to remember one password to access to all your wallets.
 
 
 <img width="836" alt="Screenshot 2021-08-31 at 18 42 03" src="https://user-images.githubusercontent.com/89921893/131689892-7ba6d5f1-b578-4dce-93c7-efa4fba822c9.png">
