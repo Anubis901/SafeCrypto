@@ -48,5 +48,10 @@ Feel free to to ask for features or anything else !
 
 ### Installation
 
-1) Download the app here : 
-2) Drag and drop it on Applications folder
+
+1) Open the dmg
+2) Drag and drop it to the Applications folder
+3) Enjoy
+
+
+
