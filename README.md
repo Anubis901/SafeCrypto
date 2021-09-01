@@ -47,11 +47,10 @@ To access to your wallet, you need to decrypt your vault using your password.
 Feel free to to ask for features or anything else !
 
 ### Installation
-
-
-1) Open the dmg
-2) Drag and drop it to the Applications folder
-3) Enjoy
+1) Download the app here : https://github.com/Anubis901/SafeCrypto/releases/tag/1.0.0
+2) Open the dmg
+3) Drag and drop it to the Applications folder
+4) Enjoy
 
 
 
