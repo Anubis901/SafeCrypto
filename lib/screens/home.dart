@@ -1,13 +1,17 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
-import 'package:safe_cryto/encryption.dart';
-import 'package:safe_cryto/screens/unlocked_home.dart';
-import 'dart:ui';
-import './create_a_new_vault.dart';
-import './how_it_works.dart';
-import '../encryption.dart';
+import 'package:nice_buttons/nice_buttons.dart';
+import 'package:gradient_text/gradient_text.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
+import './create_new_vault.dart';
+import './unlock_vault.dart';
+
 import 'dart:convert';
+import '../theme.dart';
+
 
 class Wallets {
   String coinName;
@@ -52,6 +56,8 @@ class Wallets {
   }
 }
 
+List<bool> selected = [true, false, false, false, false];
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -75,75 +81,177 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-      ),
-      appLogo(),
-      homeTitle(),
-      browseButton(),
-      vaultName(),
-      passwordField(),
-      unlockButton(),
-      createNewVault(),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          version(),
-          // howItWorks(),
-        ],
-      ),
-    ]));
+      body: Stack(children: [
+        Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/background_home.jpeg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+              Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                // homeTitle(),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+                  child: OutlineGradientButton(
+                    inkWell: true,
+                    backgroundColor: const Color(0xFF18163d),
+                    child: Text('Welcome to CRYPTOSAFE',
+                        style: GoogleFonts.poppins(fontSize: 80.0, color: const Color(0xffffffff), fontWeight: FontWeight.w700)),
+                    gradient: LinearGradient(
+                      colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
+                    ),
+                    strokeWidth: 3,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    radius: const Radius.circular(4),
+                  ),
+                ),
+                catchPhrase(),
+              ]),
+              // Used as spacer
+              Container(height: 100.0, color: Colors.transparent),
+              Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    createNewVaultPhrase('       Don\'t have a vault ?', '\n                                      Create a vault here !'),
+                    createNewVaultPhrase('Already have a vault ?', '\n                          Unlock your vault here'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // alreadyHaveAVaultPhrase(),
+                    unlockVaultButton(),
+                    newVaultButton(),
+                  ],
+                ),
+              ]),
+
+              // ),
+            ])),
+        // sideBar(),
+      ]),
+    );
   }
 
-  Padding appLogo() {
-    return (Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-      child: Image.asset(
-        'assets/lock.png',
-        fit: BoxFit.fill,
-        width: 200.0,
-        height: 200.0,
+  Container sideBar() {
+    return (Container(
+      // margin: EdgeInsets.all(0.0),
+      height: MediaQuery.of(context).size.height,
+      width: 101.0,
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(width: 1.0, color: Colors.grey.shade600),
+          // bottom: BorderSide(width: 16.0, color: Colors.lightBlue.shade900),
+        ),
+        gradient: const LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            stops: [0.0, 0.5, 1],
+            colors: [Color(0xff161439), Color(0xff00163b), Color(0xff161439)]),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 40,
+            left: 15,
+            child: appLogo(),
+          ),
+          Positioned(
+            top: 200,
+            left: 20,
+            child: Column(children: <Widget>[
+              IconButton(
+                color: Colors.white,
+                hoverColor: Colors.black,
+                icon: const Icon(Icons.home),
+                iconSize: 40,
+                onPressed: () {},
+              ),
+              IconButton(
+                color: Colors.white,
+                hoverColor: Colors.white,
+                icon: const Icon(Icons.add_box_rounded),
+                iconSize: 40,
+                onPressed: () {},
+              ),
+              IconButton(
+                color: Colors.white,
+                hoverColor: Colors.white,
+                icon: const Icon(Icons.compare_arrows_sharp),
+                iconSize: 40,
+                onPressed: () {},
+              ),
+              IconButton(
+                color: Colors.white,
+                hoverColor: Colors.white,
+                icon: const Icon(Icons.settings),
+                iconSize: 40,
+                onPressed: () {},
+              ),
+            ]),
+          ),
+        ],
+      ),
+    ));
+  }
+
+  Container appLogo() {
+    return (Container(
+      height: 70.0,
+      width: 70.0,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/logo.png'),
+          fit: BoxFit.fill,
+        ),
+        shape: BoxShape.circle,
       ),
     ));
   }
 
   Padding homeTitle() {
-    return (const Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-      child: Text(
-        "Welcome to CryptoSafe",
-        style: TextStyle(fontSize: 60.0, color: Color(0xFFE2A400), fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-      ),
+    return (Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+        child: Card(
+          color: const Color(0xFF18163d),
+          elevation: 3,
+          child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GradientText(
+                'Welcome to CRYPTOSAFE',
+                gradient: LinearGradient(colors: [Colors.blue, Colors.purple]),
+                style: GoogleFonts.poppins(fontSize: 80.0, color: Color(0xffffffff), fontWeight: FontWeight.w700),
+              )),
+        )));
+  }
+
+  Padding catchPhrase() {
+    return (Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+      child: Text("THE BEST SOLUTION IN TERMS OF SAFETY FOR YOUR WALLET !",
+          // gradient: LinearGradient(colors: [Colors.blue, Colors.purple]),
+          style: GoogleFonts.poppins(fontSize: 25.0, color: Color(0xffffffff), fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center),
     ));
   }
 
-  Padding browseButton() {
+  Padding createNewVaultPhrase(String str1, str2) {
     return (Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-      child: SizedBox(
-        child: IconButton(
-          color: Colors.amber,
-          hoverColor: Colors.black,
-          icon: const Icon(Icons.lock_outline_rounded),
-          iconSize: 120,
-          onPressed: () {
-            openFinder();
-            displaySnackMessage('Please select your vault', context);
-          },
-        ),
-      ),
-    ));
-  }
-
-  Padding vaultName() {
-    return (Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-      child: Text(
-        _fileName!,
-        style: const TextStyle(fontSize: 26.0, color: Colors.amber, fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-      ),
-    ));
+        padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+        child: Center(
+            child: RichText(
+                text: TextSpan(
+                    text: str1,
+                    style: GoogleFonts.poppins(fontSize: 36.0, color: Color(0xffffffff), fontWeight: FontWeight.w500),
+                    children: <TextSpan>[
+              TextSpan(
+                text: str2,
+                style: GoogleFonts.poppins(fontSize: 15.0, color: Color(0xffffffff), fontWeight: FontWeight.w300),
+              )
+            ])))));
   }
 
   Padding passwordField() {
@@ -183,52 +291,49 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  Padding unlockButton() {
+  Padding newVaultButton() {
     return (Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-      child: ElevatedButton(
-          onPressed: () {
-            if (_fileName == 'Please select your vault !') {
-              displaySnackMessage('Please select a vault to unlock !', context);
-              return;
-            } else if (password.text.isEmpty) {
-              displaySnackMessage('Empty password field !', context);
-              return;
-            }
+      child: OutlineGradientButton(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateNewVaultPage(title: '')),
+          );
+        },
+        inkWell: true,
+        backgroundColor: const Color(0xFF18163d),
+        child: Text('     NEW VAULT     ', style: GoogleFonts.poppins(fontSize: 28.0, color: const Color(0xffffffff), fontWeight: FontWeight.w700)),
+        gradient: LinearGradient(
+          colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
+        ),
+        strokeWidth: 3,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        radius: const Radius.circular(4),
+      ),
+    ));
+  }
 
-            encryptedVault = readFile(_fileName.toString());
-            decryptedVault = decrypt(password.text, encryptedVault);
-
-            if (decryptedVault == 'INVALID_VAULT') {
-              displaySnackMessage('Invalid vault file specified !', context);
-              return;
-            } else if (decryptedVault == 'WRONG_PASSWORD') {
-              displaySnackMessage('Wrong password !', context);
-              return;
-            } else if (decryptedVault != '') {
-              // Load decrypted vault
-              var listWallets = loadWallets(decryptedVault);
-              // Login to the Vault
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => UnlockedHomePage(
-                          wallets: listWallets,
-                          fileName: _fileName.toString(),
-                          password: password,
-                        )),
-              );
-              // password.clear();
-            } else {
-              displaySnackMessage('Unknown error !', context);
-              return;
-            }
-          },
-          style: defaultButtonStyle(),
-          child: const Text(
-            "Unlock my Vault",
-            style: TextStyle(fontSize: 50.0, fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-          )),
+  Padding unlockVaultButton() {
+    return (Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+      child: OutlineGradientButton(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const UnlockVault(title: '')),
+          );
+        },
+        inkWell: true,
+        backgroundColor: const Color(0xFF18163d),
+        child: Text('UNLOCK VAULT', style: GoogleFonts.poppins(fontSize: 28.0, color: const Color(0xffffffff), fontWeight: FontWeight.w700)),
+        gradient: LinearGradient(
+          colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
+        ),
+        strokeWidth: 3,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        radius: const Radius.circular(4),
+      ),
     ));
   }
 
@@ -248,27 +353,6 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500, fontFamily: "Roboto"),
           )),
     ));
-  }
-
-  Text version() {
-    return (const Text(
-      "v1.0.0",
-      style: TextStyle(fontSize: 15.0, color: Color(0xFFE2A400), fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-    ));
-  }
-
-  TextButton howItWorks() {
-    return (TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HowItWorksPage(title: '')),
-          );
-        },
-        child: const Text(
-          "How it works!",
-          style: TextStyle(fontSize: 15.0, color: Color(0xFFE2A400), fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-        )));
   }
 
   ButtonStyle defaultButtonStyle() {
@@ -318,4 +402,46 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> displaySnackMessage(St
         style: const TextStyle(color: Colors.black, fontSize: 26),
         textAlign: TextAlign.center,
       ))));
+}
+
+class NavBarItem extends StatefulWidget {
+  final IconData icon;
+  final Function onTap;
+  final bool selected;
+
+  NavBarItem({
+    required this.icon,
+    required this.onTap,
+    required this.selected,
+  });
+
+  @override
+  _NavBarItemState createState() => _NavBarItemState();
+}
+
+class _NavBarItemState extends State<NavBarItem> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 101,
+      color: Colors.transparent,
+      child: Stack(children: [
+        InkWell(
+          child: Container(
+            height: 80.0,
+            width: 101.0,
+            child: Center(
+              child: Icon(
+                widget.icon,
+                color: Colors.white,
+                size: 26.0,
+              ),
+            ),
+          ),
+          onTap: () {},
+          onHover: (value) {},
+        ),
+      ]),
+    );
+  }
 }

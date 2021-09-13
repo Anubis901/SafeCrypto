@@ -1,6 +1,12 @@
+// import 'dart:html';
 import 'package:flutter/material.dart';
 import './unlocked_home.dart';
 import './home.dart';
+import './add_wallet.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
+import './create_new_vault.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class EditWalletPage extends StatefulWidget {
   final List<Wallets> wallets;
@@ -37,263 +43,162 @@ class _EditWalletPage extends State<EditWalletPage> {
     TextEditingController password = widget.password;
     String walletId = widget.walletId;
 
+    final String assetName = 'assets/wallet.svg';
+
     var currentWallet = wallets.where((element) => element.id == walletId);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('CryptoSafe'),
-        ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: Image.asset(
-              'assets/wallet.png',
-              fit: BoxFit.fill,
-              width: 210.0,
-              height: 200.0,
+        body: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(image: AssetImage("assets/background_home_no_logo.png"), fit: BoxFit.cover),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: Text(
-              "Add a new wallet",
-              style: TextStyle(fontSize: 62.0, color: Color(0xFFE2A400), fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: SizedBox(
-              child: SizedBox(
-                width: 440,
-                child: TextFormField(
-                  // initialValue: "currentWallet.first.coinName",
-                  textAlign: TextAlign.center,
-                  controller: coinName..text = currentWallet.first.coinName,
-                  style: const TextStyle(
-                    fontSize: 38,
-                    color: Colors.amber,
-                  ),
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                    ),
-                    hintText: "Coin Name",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                    ),
-                  ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+                child: Image.asset(
+                  'assets/wallet.png',
+                  fit: BoxFit.fill,
+                  width: 200.0,
+                  height: 200.0,
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: SizedBox(
-              child: SizedBox(
-                width: 440,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: publicKey..text = currentWallet.first.publicKey,
-                  style: const TextStyle(
-                    fontSize: 38,
-                    color: Colors.amber,
-                  ),
-                  // obscureText: true,
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                    ),
-                    hintText: "Public Key",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
+              textField(currentWallet.first.coinName, coinName, "Coin Name", true),
+              textField(currentWallet.first.publicKey, publicKey, "Public Key", false),
+              textField(currentWallet.first.privateKey, privateKey, "Private Key", false),
+              textField(currentWallet.first.seed, seed, "Seed", false),
+              textField(currentWallet.first.comment, comment, "Comment", false),
+              Container(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[button("  CANCEL  "), saveButton(wallets, fileName, password, walletId)]),
+                height: 100,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: SizedBox(
-              // width: 50,
-              // height: 100,
-              child: SizedBox(
-                width: 440,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: privateKey..text = currentWallet.first.privateKey,
-                  style: const TextStyle(
-                    fontSize: 38,
-                    color: Colors.amber,
-                  ),
-                  // obscureText: true,
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                    ),
-
-                    hintText: "Private Key",
-                    hintStyle: TextStyle(color: Colors.grey),
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                    ),
-                    // enabledBorder: true,r
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: SizedBox(
-              child: SizedBox(
-                width: 440,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: seed..text = currentWallet.first.seed,
-                  style: const TextStyle(
-                    fontSize: 38,
-                    color: Colors.amber,
-                  ),
-                  // obscureText: true,
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                    ),
-                    hintText: "Seed",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: SizedBox(
-              child: SizedBox(
-                width: 440,
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: comment..text = currentWallet.first.comment,
-                  style: const TextStyle(
-                    fontSize: 38,
-                    color: Colors.amber,
-                  ),
-                  // obscureText: true,
-                  decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                    ),
-                    hintText: "Comment",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-            child: ElevatedButton(
-                onPressed: () {
-                  String error = '';
-                  // new wallet
-                  var wallet = Wallets(coinName.text, publicKey.text, privateKey.text, seed.text, comment.text,
-                      DateTime.now().millisecondsSinceEpoch.toString() // unique id
-                      );
-                  // Check inputs and add it
-                  if ((error = checkAddWalletInput(wallet)) == 'Wallet added to your vault') {
-                    // wallets.removeWhere((element) => false)
-                    wallets.removeWhere((element) => element.id == walletId);
-                    wallets.add(wallet);
-                    addWallet(wallets, fileName, password.text);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          backgroundColor: Colors.amber,
-                          content: Text(
-                            'Wallet added to your vault',
-                            style: TextStyle(color: Colors.black, fontSize: 26),
-                            textAlign: TextAlign.center,
-                          )),
-                    );
-                    Navigator.pop(context);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          backgroundColor: Colors.amber,
-                          content: Text(
-                            error,
-                            style: const TextStyle(color: Colors.black, fontSize: 26),
-                            textAlign: TextAlign.center,
-                          )),
-                    );
-                  }
-                },
-                style: ButtonStyle(
-                    shadowColor: MaterialStateProperty.all(Colors.amber),
-                    padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ))),
-                child: const Text(
-                  "Save",
-                  style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w500, fontFamily: "Roboto"),
-                )),
-          ),
-        ]));
+            ])));
   }
 
-  String checkAddWalletInput(Wallets wallet) {
-    if (wallet.coinName == '') {
-      return 'Please provide a coin name';
-    }
-    if (wallet.publicKey == '') {
-      return 'Please provide a Public key';
-    }
-    if (wallet.privateKey == '') {
-      return 'Please provide a Private key';
-    }
+  Padding textField(String currentWallet, TextEditingController name, String hintText, autofocus) {
+    return (Padding(
+      padding: const EdgeInsetsDirectional.all(10),
+      child: SizedBox(
+        child: SizedBox(
+          width: 440,
+          height: 80,
+          child: Stack(children: <Widget>[
+            Positioned(
+              bottom: 10,
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withAlpha(80),
+                      blurRadius: 10.0,
+                      spreadRadius: 3.0,
+                    ),
+                  ],
+                  gradient: LinearGradient(
+                    colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
+                  ),
+                  // gradient: LinearGradient(
+                  //   colors: List.generate(360, (h) => HSLColor.fromAHSL(1, h.toDouble(), 1, 0.7).toColor()),
+                  // ),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                height: 70,
+                width: 440,
+              ),
+            ),
+            Positioned(
+              bottom: 13,
+              left: 3,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xFF18163d),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                height: 64,
+                width: 434,
+              ),
+            ),
+            TextFormField(
+              autofocus: true,
+              cursorColor: Colors.white,
+              textAlign: TextAlign.center,
+              controller: name..text = currentWallet,
+              style: const TextStyle(fontSize: 44.0, color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "Roboto"),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                hintText: hintText,
+                hintStyle: const TextStyle(color: Colors.grey),
+              ),
+            ),
+          ]),
+        ),
+      ),
+    ));
+  }
 
-    if (wallet.privateKey == '' && wallet.seed == '') {
-      return 'Please provide at least a private key or a seed';
-    }
+  Padding button(String text) {
+    return (Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+      child: OutlineGradientButton(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        inkWell: true,
+        backgroundColor: const Color(0xFF18163d),
+        child: Text(text, style: GoogleFonts.poppins(fontSize: 28.0, color: const Color(0xffffffff), fontWeight: FontWeight.w700)),
+        gradient: LinearGradient(
+          colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
+        ),
+        strokeWidth: 3,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        radius: const Radius.circular(4),
+      ),
+    ));
+  }
 
-    return 'Wallet added to your vault';
+  Padding saveButton(List<Wallets> wallets, String fileName, TextEditingController password, String walletId) {
+    return (Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+      child: OutlineGradientButton(
+        onTap: () {
+          String error = '';
+          // new wallet
+          var wallet = Wallets(
+              coinName.text, publicKey.text, privateKey.text, seed.text, comment.text, DateTime.now().millisecondsSinceEpoch.toString() // unique id
+              );
+          // Check inputs and add it
+          if ((error = checkAddWalletInput(wallet)) == 'Wallet added to your vault') {
+            // wallets.removeWhere((element) => false)
+            wallets.removeWhere((element) => element.id == walletId);
+            wallets.add(wallet);
+            addWallet(wallets, fileName, password.text);
+            Navigator.pop(context);
+            showFloatingFlushbar(context, "Wallet updated");
+          } else {
+            showFloatingFlushbar(context, error);
+          }
+        },
+        inkWell: true,
+        backgroundColor: const Color(0xFF18163d),
+        child: Text('     SAVE     ', style: GoogleFonts.poppins(fontSize: 28.0, color: const Color(0xffffffff), fontWeight: FontWeight.w700)),
+        // gradient: SweepGradient(
+        //   colors: List.generate(360, (h) => HSLColor.fromAHSL(1, h.toDouble(), 1, 0.7).toColor()),
+        // ),
+        gradient: LinearGradient(
+          colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
+        ),
+        strokeWidth: 3,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        radius: const Radius.circular(4),
+      ),
+    ));
   }
 }

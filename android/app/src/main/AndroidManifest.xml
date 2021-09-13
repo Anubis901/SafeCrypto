@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.safe_cryto">
+    package="com.example.safe_cryto_v2">
    <application
-        android:label="safe_cryto"
-        android:icon="@mipmap/launcher_icon">
+        android:label="safe_cryto_v2"
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
