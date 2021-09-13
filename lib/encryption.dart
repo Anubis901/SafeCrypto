@@ -1,15 +1,19 @@
-import 'dart:ui';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:convert';
 import 'package:string_validator/string_validator.dart';
-
+import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as enc;
 
+String passwordPadded(String password, int lenght) {
+  var bytes = utf8.encode(password); // data being hashed
+  var digest = sha512.convert(bytes);
+
+  return password + digest.toString().substring(1, lenght);
+}
+
 String encrypt(String password, dataString) {
-  // padding
   if (password.length != 32) {
-    password = password.padRight(32, '0');
+    password = passwordPadded(password, 32 - password.length + 1);
   }
 
   final key = enc.Key.fromUtf8(password);
@@ -22,7 +26,7 @@ String encrypt(String password, dataString) {
 
 String decrypt(String password, String dataString) {
   if (password.length != 32) {
-    password = password.padRight(32, '0');
+    password = passwordPadded(password, 32 - password.length + 1);
   }
 
   final key = enc.Key.fromUtf8(password);
@@ -39,7 +43,6 @@ String decrypt(String password, String dataString) {
   try {
     decrypted = encrypter.decrypt(raw, iv: iv);
   } catch (e) {
-    // return e.toString();
     return 'WRONG_PASSWORD';
   }
 
