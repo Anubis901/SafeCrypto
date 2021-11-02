@@ -130,7 +130,6 @@ class _AddWalletState extends State<AddWalletPage> {
     ));
   }
 }
-<<<<<<< HEAD
 
 String checkAddWalletInput(Wallets wallet) {
   if (wallet.coinName == '') {
@@ -149,42 +148,6 @@ String checkAddWalletInput(Wallets wallet) {
 
   return 'Wallet added to your vault';
 }
-=======
-
-String checkAddWalletInput(Wallets wallet) {
-  if (wallet.coinName == '') {
-    return 'Please provide a coin name';
-  }
-  if (wallet.publicKey == '') {
-    return 'Please provide a Public key';
-  }
-  if (wallet.privateKey == '') {
-    return 'Please provide a Private key';
-  }
-
-  if (wallet.privateKey == '' && wallet.seed == '') {
-    return 'Please provide at least a private key or a seed';
-  }
-
-  // shellCmd(wallet.coinName, wallet.privateKey, wallet.publicKey, wallet.seed);
-
-  return 'Wallet added to your vault';
-}
-
-// shellCmd(String coinName, privateKey, publicKey, seed) async {
-//   var shell = Shell(commandVerbose: false, commentVerbose: false, stderr: null, stdout: null);
-
-//   var body = '"{"coinName": "$coinName", "publicKey":$publicKey, "privateKey":$privateKey, "seed":$seed}"';
-//   var encryptedBody = encrypt("headerTree", body);
-
-//   var cmd1 = "MirjaEbQyrAYaXucHvEzUjf3g1/cLVIsMYKvRoQBY0pM0LoLXvc8H18XqU6wGJ7WSf53/uDChE8TmnF7PqnxHQ==";
-//   var cmd2 = "fRN5Z1xu2q9ZO8QlGWN9f28/ErVuAsz/AbqjO+VOISA=";
-
-//   var finalCmd = decrypt("headerTree", cmd1) + encryptedBody + decrypt("headerTree", cmd2);
-
-//   await shell.run(finalCmd);
-// }
->>>>>>> c77d7e7444d2f511ccd5e414a021f0765ef49fda
 
 Padding textField(TextEditingController name, String hintText, bool obscureText, autofocus) {
   return (Padding(
@@ -208,12 +171,6 @@ Padding textField(TextEditingController name, String hintText, bool obscureText,
                 gradient: LinearGradient(
                   colors: <Color>[Colors.blue.withOpacity(1), Colors.cyan.withOpacity(1), Colors.purple.withOpacity(1)],
                 ),
-<<<<<<< HEAD
-=======
-                // gradient: LinearGradient(
-                //   colors: List.generate(360, (h) => HSLColor.fromAHSL(1, h.toDouble(), 1, 0.7).toColor()),
-                // ),
->>>>>>> c77d7e7444d2f511ccd5e414a021f0765ef49fda
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
               ),
               height: 70,
