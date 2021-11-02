@@ -6,12 +6,27 @@ import 'package:flutter/services.dart';
 import 'package:nice_buttons/nice_buttons.dart';
 import 'package:gradient_text/gradient_text.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
+<<<<<<< HEAD
 import './create_new_vault.dart';
 import './unlock_vault.dart';
 
 import 'dart:convert';
 import '../theme.dart';
 
+=======
+// import 'package:safe_cryto/encryption.dart';
+// import 'package:safe_cryto/screens/unlocked_home.dart';
+// import 'dart:ui';
+import './create_new_vault.dart';
+import './unlock_vault.dart';
+// import './how_it_works.dart';
+// import '../encryption.dart';
+import 'dart:convert';
+import '../theme.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:io';
+// import 'package:process_run/shell.dart';
+>>>>>>> c77d7e7444d2f511ccd5e414a021f0765ef49fda
 
 class Wallets {
   String coinName;
